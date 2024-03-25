@@ -1,41 +1,17 @@
 #include <stdio.h>
-
-int main() {
-int piket;
-char nota;
-
-printf("Ju lutem vendosni piket e marra: ");
-scanf("%d",&piket);
-
-if ( piket > 100 ) {
-printf("Numri i pikeve nuk mund te jete me i madh se 100.\n");
-return 1 ;
+int main (void){
+    int j, i, n;
+    printf("Vendosni numrin e rreshtave: ");
+    scanf("%d",&n);
+    for( i = i; i <= n; i ++){
+        for( j = 1; j <= n; j ++){
+            if( j<=n - i){
+                printf(" ");
+            }else{
+                printf("*");
+            }
+        }
+        printf("\n");
+    }
+    return 0;
 }
-
-switch( piket / 10)
-
-{
-    case 10:
-    case 9:
-       nota='A';
-       break;
-    case 8:
-       nota='B';
-       break;
-    case 7:
-       nota='c';
-       break;
-    case 6:
-       nota='D';
-       break;
-    case 5:
-       nota='F';
-       break;
-    default:
-       nota='F';
-
-}
-printf("Nota juaj eshte:%c\n",nota);
-
-return 0;
-     }
