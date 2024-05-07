@@ -1,0 +1,129 @@
+#include <stdio.h>
+#define GJAT_EMER 25
+#define MAX_ARTIKULL 100
+
+struct artikull {
+    int numri;
+    char emri[GJAT_EMER + 1];
+    int gjendja;
+} inventari[MAX_ARTIKULL];
+
+int nr_artikull = 0;
+
+int gjej_artikull(int numer);
+void shto(void);
+void kerko(void);
+void update(void);
+void printo(void);
+int lexo_rresht(char str[], int n);
+
+int main() {
+    char kodi;
+
+    for (;;) {
+        printf("\n===================================\n");
+        printf("Zgjedh njërën nga opsionet:\n");
+        printf("s: Shto artikull\n");
+        printf("k: Kerko artikull\n");
+        printf("u: Update artikull\n");
+        printf("p: Printo inventarin\n");
+        printf("q: Exit\n");
+        printf("===================================\n");
+        printf("Fut kodin e veprimit: ");
+
+        scanf(" %c", &kodi);
+        while (getchar() != '\n')
+            ;
+
+        switch (kodi) {
+            case 's':
+                shto();
+                break;
+            case 'k':
+                kerko();
+                break;
+            case 'u':
+                update();
+                break;
+            case 'p':
+                printo();
+                break;
+            case 'q':
+                return 0;
+            default:
+                printf("Kod i gabuar\n");
+        }
+    }
+}
+
+int gjej_artikull(int numri) {
+    int i;
+    for (i = 0; i < nr_artikull; i++)
+        if (inventari[i].numri == numri)
+            return i;
+    return -1;
+}
+
+void shto(void) {
+    int artikull_nr;
+    if (nr_artikull == MAX_ARTIKULL) {
+        printf("Databaza eshte plot; nuk mund te shtohet artikull.\n");
+        return;
+    }
+    printf("Fut numrin e artikullit: ");
+    scanf("%d", &artikull_nr);
+    if (gjej_artikull(artikull_nr) >= 0) {
+        printf("Artikulli egziston.\n");
+        return;
+    }
+
+    inventari[nr_artikull].numri = artikull_nr;
+    printf("Jep emrin e artikullit: ");
+    lexo_rresht(inventari[nr_artikull].emri, GJAT_EMER);
+    printf("Jep gjendjen e artikullit: ");
+    scanf("%d", &inventari[nr_artikull].gjendja);
+    nr_artikull++;
+}
+
+void kerko(void) {
+    int i, numer;
+    printf("Jep numrin e artikullit: ");
+    scanf("%d", &numer);
+    i = gjej_artikull(numer);
+    if (i >= 0) {
+        printf("Emri i artikullit: %s\n", inventari[i].emri);
+        printf("Gjendja e artikullit: %d\n", inventari[i].gjendja);
+    } else
+        printf("Artikulli nuk u gjet.\n");
+}
+
+void update(void) {
+    int i, numer, ndryshimi;
+    printf("Jep numrin e artikullit: ");
+    scanf("%d", &numer);
+    i = gjej_artikull(numer);
+    if (i >= 0) {
+        printf("Jep ndryshimin ne gjendje te artikullit: ");
+        scanf("%d", &ndryshimi);
+        inventari[i].gjendja += ndryshimi;
+    } else
+        printf("Artikulli nuk u gjet.\n");
+}
+
+void printo(void) {
+    int i;
+    printf("Numri i Artikullit   Emri i Artikullit   Gjendja e Artikullit\n");
+    for (i = 0; i < nr_artikull; i++)
+        printf("%-20d%-25s%-20d\n", inventari[i].numri, inventari[i].emri, inventari[i].gjendja);
+}
+
+int lexo_rresht(char str[], int n) {
+    int ch, i = 0;
+    while ((ch = getchar()) == ' ')
+        ;
+    while ((ch = getchar()) != '\n') {
+        if (i < n)
+            str[i++] = ch;
+    }
+    str[i] = '\0';
+}
